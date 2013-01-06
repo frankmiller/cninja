@@ -178,7 +178,7 @@ if ( ( $useColor eq "never" ) || ( $useColor eq "auto" && ! -t STDOUT ) )
 }
 
 # Read the configuration file, if there is one.
-my $configFile = $ENV{"HOME"} . "/.colorninjarc";
+my $configFile = $ENV{"HOME"} . "/.cninjarc";
 if ( -f $configFile )
 {
     loadPreferences( $configFile );
@@ -274,7 +274,7 @@ while ( sysread( $pty, $nbuf, 4096 ) )
             print $leader;
 
             ### ninja lines
-            if ( $buf =~ /^FAILED:\ / )
+            if ( $line =~ /^FAILED:\ / )
             {
                 print "$colors{failed}$line$reset\n";
             }
