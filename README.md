@@ -20,5 +20,5 @@ How it works
 ------------
 
 `cninja` runs `ninja` in a pseudo terminal, parses the output with
-copious regular expressions, and injects ascii color codes.
+copious regular expressions, and injects ansi color codes.
 
