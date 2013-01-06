@@ -1,0 +1,30 @@
+# rename this file $HOME/.cninjarc and edit
+#
+# The following groups of attributes may be combined for a given color:
+#
+# clear         black      on_black
+# reset         red        on_red
+# bold          green      on_green
+# underline     yellow     on_yellow
+# underscore    blue       on_blue
+# blink         magenta    on_magenta
+# reverse       cyan       on_cyan
+# concealed     white      on_white
+#
+# For example, status: bold cyan on_yellow
+#
+# Warning: the color that actually apears on the terminal my be different the
+# the name specified. You will need to experiment.
+#
+
+status     :
+generating : bold blue
+building   : green
+linking    : bold red
+failed     :
+path       : bold
+location   : bold
+warning    : bold yellow
+error      : bold red
+code       : bold cyan
+
