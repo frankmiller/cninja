@@ -11,16 +11,16 @@ my @ninjaArgs = ();
 
 my $reset = color("reset");
 my %colors = (
-    "status"     => "",
-    "generating" => color("bold blue"),
-    "building"   => color("green"),
-    "linking"    => color("bold red"),
-    "failed"     => "",
-    "path"       => color("bold"),
-    "location"   => color("bold"),
-    "warning"    => color("bold yellow"),
-    "error"      => color("bold red"),
-    "code"       => color("bold cyan")
+    status     => "",
+    generating => color("bold blue"),
+    building   => color("green"),
+    linking    => color("bold red"),
+    failed     => "",
+    path       => color("bold"),
+    location   => color("bold"),
+    warning    => color("bold yellow"),
+    error      => color("bold red"),
+    code       => color("bold cyan")
 );
 
 sub loadPreferences
@@ -56,7 +56,7 @@ sub loadPreferences
 sub printMessage
 {
     my $message = shift;
-    my $on = $colors{ "code" };
+    my $on = $colors{code};
     $message =~ s/((‘|`).*?(’|'))/$on$1$reset/g;
     print $message;
 }
@@ -73,37 +73,37 @@ sub printGccLine
     }
     elsif ( $line =~ /^(.*?:)(\d+(?::\d+)?:\ )(error:)(\ .*)$/ )
     {
-        print( $colors{"path"}, $1, $reset );
-        print( $colors{"location"}, $2, $reset );
-        print( $colors{"error"}, $3, $reset );
+        print( $colors{path}, $1, $reset );
+        print( $colors{location}, $2, $reset );
+        print( $colors{error}, $3, $reset );
         printMessage( $4 );
         print( "\n" );
     }
     elsif ( $line =~ /^(.*?:)(\d+(?::\d+)?:\ )(warning:|note:)(\ .*)$/ )
     {
-        print( $colors{"path"}, $1, $reset );
-        print( $colors{"location"}, $2, $reset );
-        print( $colors{"warning"}, $3, $reset );
+        print( $colors{path}, $1, $reset );
+        print( $colors{location}, $2, $reset );
+        print( $colors{warning}, $3, $reset );
         printMessage( $4 );
         print( "\n" );
     }
     elsif ( $line =~ /^(.*?:)(\d+(?::\d+)?:\ )(.*)$/ )
     {
-        print( $colors{"path"}, $1, $reset );
-        print( $colors{"location"}, $2, $reset );
+        print( $colors{path}, $1, $reset );
+        print( $colors{location}, $2, $reset );
         printMessage( $3 );
         print( "\n" );
     }
     elsif ( $line =~ /^((?:In\ file\ included|\ {16})\ from\ )(.*?:)(\d+)(,|:.*)$/ )
     {
         print( $1 );
-        print( $colors{"path"}, $2, $reset );
-        print( $colors{"location"}, $3, $reset );
+        print( $colors{path}, $2, $reset );
+        print( $colors{location}, $3, $reset );
         print( "$4\n" );
     }
     elsif ( $line =~ /^(.*?:)(\ +instantiated from here.*)$/ )
     {
-        print( $colors{"path"}, $1, $reset );
+        print( $colors{path}, $1, $reset );
         print( "$2\n" );
     }
     else
@@ -149,12 +149,13 @@ if ( $help || ! $result )
 {
     print <<"__EOF__";
 This is a ninja wrapper script. All unhandled options are passed to ninja.
-usage: $0 [options] NinjaArgs...
+usage: $0 [options] [NinjaArgs...]
 
 options:
-  -h             show this help message
-  --color[=WHEN] colorize the output. WHEN can be 'always', 'never', or 'auto'.
-  --tee=file     copy all output to file ala tee.
+  -h,--help        Show this help message.
+  --color[=WHEN]   Colorize the output. WHEN can be 'always', 'never', or 'auto'.
+  --nogcc          Don't colorize gcc error messages. Usefull when using clang.
+  --tee=<file>     Copy all output to file ala tee.
 
 Here is the ninja usage.
 
@@ -267,11 +268,11 @@ while ( sysread( $pty, $nbuf, 4096 ) )
         {
             $foundMatch = 1;
 
-            my $leader = $1;
+            my $prefix = $1;
             my $line   = $2;
             $buf = substr( $buf, $+[0] );
 
-            print $leader;
+            print $prefix;
 
             ### ninja lines
             if ( $line =~ /^FAILED:\ / )
