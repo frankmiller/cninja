@@ -206,7 +206,7 @@ if ( $pid == 0 )
     open( STDOUT, ">&" . $slave->fileno );
     open( STDERR, ">&" . $slave->fileno );
     close( $slave );
-    exec( $ninja, @ninjaArgs );
+    exec( $ninja, @ninjaArgs ) || die "exec failed";
 }
 
 # parent
@@ -264,7 +264,7 @@ while ( sysread( $pty, $nbuf, 4096 ) )
         }
 
         ### regular lines ###
-        elsif ( $buf =~ /^(\n*)(.+)\n/ )
+        elsif ( $buf =~ /^(\n*)(.*)\n/ )
         {
             $foundMatch = 1;
 
