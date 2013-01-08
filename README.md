@@ -3,10 +3,11 @@ cninja
 ======
 
 This is a perl wrapper script for ninja that will colorize its output without
-turning off ninja's "smart terminal" features.
+turning off ninja's "smart terminal" features. Currently it assumes that CMake
+is the generator.
 
 I'm an inexperienced perl user so this is probably crappy code but it seems to
-work and I think the approach is promising.
+work and I think the approach is promising. Patches are welcome.
 
 How to use
 ----------
