@@ -211,6 +211,13 @@ if ( $pid == 0 )
 
 # parent
 
+my $signaled = 0;
+$SIG{INT} = sub {
+    #print "got SIGINT. sending SIGINT to $pid\n";
+    $signaled = 1;
+    kill( "SIGINT", $pid );
+};
+
 $pty->set_raw();
 $pty->close_slave();
 
@@ -219,8 +226,14 @@ autoflush $teefile 1 if ( $tee );
 
 my $buf;
 my $nbuf;
-while ( sysread( $pty, $nbuf, 4096 ) )
+while ( sysread( $pty, $nbuf, 4096 ) || $signaled )
 {
+    if ( $signaled )
+    {
+        $signaled = 0;
+        next;
+    }
+
     $buf .= $nbuf;
 
     my $foundMatch = 1;
