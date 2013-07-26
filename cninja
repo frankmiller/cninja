@@ -321,7 +321,9 @@ while ( sysread( $pty, $nbuf, 4096 ) || $signaled )
 }
 
 # Get the return code of ninja and exit with that.
-my $ret = waitpid( $pid, 0 );
+waitpid( $pid, 0 );
+my $ret = $?;
+
 close $pty;
 
 exit( $ret >> 8 );
